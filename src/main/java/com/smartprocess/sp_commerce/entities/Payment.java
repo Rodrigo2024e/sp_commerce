@@ -14,16 +14,19 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name ="tb_payment")
+@Table(name ="tb_payment") //criação da tabela tb_payment da classe Payment
 public class Payment {
 
-	@Id
+	@Id //informando que será rastreado pelo id no banco de dados
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	
+	//informa o tempo exato da realização do pagamento
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant moment;
 	
+	//obrigatório um pagamento estar associado a um pedido.
 	@OneToOne
 	@MapsId
 	private Order order;

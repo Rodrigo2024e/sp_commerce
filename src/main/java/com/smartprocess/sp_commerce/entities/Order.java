@@ -15,23 +15,29 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Table(name ="tb_order")
+@Table(name ="tb_order")  //criação da tabela tb_order da classe Order
 public class Order {
 
-	@Id
+	@Id //informando que será rastreado pelo id no banco de dados
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	//informa o tempo exato da realização do pedido
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant moment;
+	
+	//chama a classe OrderStatus
 	private OrderStatus status;
 	
-	//muitos pedidos para um cliente
+	//um pedido pode conter zero ou 1 pagamento (zero quando o pedido é feito mas não foi pago)
 	@ManyToOne
+	//faz a união da coluna id da classe Order com o id da classe cliente
 	@JoinColumn(name = "client_id")
 	private User client;
 	
+	//obrigatório ter um pagamento para cada pedido
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 

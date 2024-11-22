@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Table(name ="tb_user")
 public class User {
 	
-	@Id
+	@Id//informando que será rastreado pelo id no banco de dados
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
