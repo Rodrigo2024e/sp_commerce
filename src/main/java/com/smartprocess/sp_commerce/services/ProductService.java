@@ -1,8 +1,6 @@
 
 package com.smartprocess.sp_commerce.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +29,28 @@ public class ProductService {
 		return result.map(x -> new ProductDto(x));
 	}
 	
+	@Transactional
+	public ProductDto insert(ProductDto dto) {
+		Product entity = new Product();
+		copyDtoToEntity(dto, entity);
+		entity = repository.save(entity);
+		return new ProductDto(entity);
+	}
 	
-	
+	@Transactional
+	public ProductDto update(Long id, ProductDto dto) {
+		Product entity = repository.getReferenceById(id);
+		copyDtoToEntity(dto, entity);
+		entity = repository.save(entity);
+		return new ProductDto(entity);
+	}
+
+	private void copyDtoToEntity(ProductDto dto, Product entity) {
+		// TODO Auto-generated method stub
+		entity.setName(dto.getName());
+		entity.setDescription(dto.getDescription());
+		entity.setPrice(dto.getPrice());
+		entity.setImgUrl(dto.getImgUrl());
+	}
 
 }
