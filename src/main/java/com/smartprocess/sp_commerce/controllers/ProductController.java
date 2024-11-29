@@ -2,7 +2,7 @@
 package com.smartprocess.sp_commerce.controllers;
 
 
-import java.util.List;
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.smartprocess.sp_commerce.dto.ProductDto;
 import com.smartprocess.sp_commerce.services.ProductService;
@@ -41,8 +42,11 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public ProductDto insert(@RequestBody ProductDto dto) {
-	return service.insert(dto);
+	public ResponseEntity<ProductDto> insert(@RequestBody ProductDto dto) {
+		dto = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(dto.getId()).toUri();
+		return ResponseEntity.created(uri).body(dto);
 
 	}
 	
@@ -54,7 +58,7 @@ public class ProductController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 	service.delete(id);
 	return ResponseEntity.noContent().build();
 
