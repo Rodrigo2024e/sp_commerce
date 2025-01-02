@@ -34,7 +34,6 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
 	@GetMapping(value = "/{id}")
 	public ProductDto findById(@PathVariable Long id) {
 	return service.findById(id);
@@ -59,6 +58,7 @@ public class ProductController {
 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ProductDto> update(@PathVariable Long id, @Valid @RequestBody ProductDto dto) {
 	dto = service.update(id, dto); 
@@ -66,6 +66,7 @@ public class ProductController {
 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 	service.delete(id);
