@@ -1,9 +1,14 @@
 
 package com.smartprocess.sp_commerce.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.smartprocess.sp_commerce.entities.Category;
 import com.smartprocess.sp_commerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -19,6 +24,9 @@ public class ProductDto {
 	@Positive(message = "O preço deve ser positivo")
 	private double price;
 	private String imgUrl;
+	
+	@NotEmpty(message = "Deve haver pelo menos uma categoria")
+	private List<CategoryDTO> categories = new ArrayList();
 
 	public ProductDto(Long id, String name, String description, double price, String imgUrl) {
 		this.id = id;
@@ -34,6 +42,9 @@ public class ProductDto {
 		description = entity.getDescription();
 		price = entity.getPrice();
 		imgUrl = entity.getImgUrl();
+		for (Category cat : entity.getCategories()) {
+			categories.add(new CategoryDTO(cat));
+		}
 	}
 
 	public Long getId() {
@@ -59,6 +70,11 @@ public class ProductDto {
 	public String getImgUrl() {
 		return imgUrl;
 	}
+
+	public List<CategoryDTO> getCategories() {
+		return categories;
+	}
+	
 	
 	
 }
