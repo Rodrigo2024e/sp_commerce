@@ -10,6 +10,8 @@ import com.smartprocess.sp_commerce.entities.Order;
 import com.smartprocess.sp_commerce.entities.OrderItem;
 import com.smartprocess.sp_commerce.entities.OrderStatus;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class OrderDTO {
 	
 	private Long id;
@@ -20,6 +22,7 @@ public class OrderDTO {
 	
 	private PaymentDTO payment;
 	
+	@NotEmpty(message = "Deve haver pelo menos uma item")
 	private List<OrderItemDTO> items = new ArrayList<>();
 
 	public OrderDTO(Long id, Instant moment, OrderStatus status, ClientDTO client, PaymentDTO payment) {
