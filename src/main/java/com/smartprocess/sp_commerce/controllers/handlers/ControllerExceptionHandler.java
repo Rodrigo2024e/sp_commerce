@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.smartprocess.sp_commerce.dto.CustomErrorDTO;
 import com.smartprocess.sp_commerce.dto.ValidationErrorDTO;
 import com.smartprocess.sp_commerce.services.exceptions.DataBaseException;
+import com.smartprocess.sp_commerce.services.exceptions.ForbiddenException;
 import com.smartprocess.sp_commerce.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +44,14 @@ import jakarta.servlet.http.HttpServletRequest;
 				err.addError(f.getField(), f.getDefaultMessage());
 			}
 			
-			
 			return ResponseEntity.status(status).body(err);
 		}
+		
+		@ExceptionHandler(ForbiddenException.class)
+		public ResponseEntity<CustomErrorDTO> forbidden(ForbiddenException e, HttpServletRequest request) {
+			HttpStatus status = HttpStatus.FORBIDDEN;
+			CustomErrorDTO err = new CustomErrorDTO(Instant.now(),status.value(), e.getMessage(), request.getRequestURI());
+			return ResponseEntity.status(status).body(err);
+		}
+		
 }

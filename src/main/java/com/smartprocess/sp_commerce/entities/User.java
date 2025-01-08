@@ -142,7 +142,7 @@ public class User implements UserDetails {
 		User other = (User) obj;
 		return Objects.equals(roles, other.roles);
 	}
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles;
