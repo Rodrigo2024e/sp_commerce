@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.smartprocess.sp_commerce.dto.CustomErrorDTO;
 import com.smartprocess.sp_commerce.dto.ValidationErrorDTO;
@@ -19,7 +20,7 @@ import com.smartprocess.sp_commerce.services.exceptions.ResourceNotFoundExceptio
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@ControllerAdvice
+@RestControllerAdvice
 	public class ControllerExceptionHandler {
 	
 		@ExceptionHandler(ResourceNotFoundException.class)

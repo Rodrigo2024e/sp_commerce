@@ -4,25 +4,32 @@ package com.smartprocess.sp_commerce.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.smartprocess.sp_commerce.entities.Category;
 import com.smartprocess.sp_commerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDto {
 	
 	private Long id;
+	
 	@Size(min = 3, max = 80, message = "Nome precisa ter de 3 a 80 caracteres")
 	@NotBlank(message = "Campo requerido")
 	private String name;
 	@Size(min = 10, message = "Descrição precisa ter no mínimo 10 caracteres")
 	@NotBlank(message = "Campo requerido")
 	private String description;
+	
+	@NotNull(message = "O campo deve ser requerido")
 	@Positive(message = "O preço deve ser positivo")
-	private double price;
+	private Double price;
+	
 	private String imgUrl;
 	
 	@NotEmpty(message = "Deve haver pelo menos uma categoria")
@@ -62,9 +69,12 @@ public class ProductDto {
 	}
 
 
-	public double getPrice() {
-		return price;
-	}
+	public Double getPrice() {
+        if (price == null || price == 0.0) {
+            return null; 
+        }
+        return price;
+    }
 
 
 	public String getImgUrl() {
